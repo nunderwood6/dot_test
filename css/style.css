@@ -128,10 +128,10 @@ div.labels p.waterLabel {
 
 
 .municipio {
-	fill: #777;
+	fill: #000;
 	stroke: #fff;
 	stroke-width: 0.2px;
-	opacity: 0.5;
+	opacity: 0.7;
 	stroke-opacity: 0.7;
 }
 

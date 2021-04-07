@@ -3,6 +3,9 @@ var pathGuate;
 var rScale;
 var rasterBounds;
 var focusWidth;
+var w;
+var h;
+var g;
 
 var groupNames = [
             "Achi",
@@ -56,7 +59,7 @@ function loadData(){
 
         positionMap(municipios,focusBox,rasterBox,countries);
         drawDotDensity(groupsData);
-        drawViolations(violations);
+        // drawViolations(violations);
 
     });
 }
@@ -89,30 +92,35 @@ function positionMap(municipios,focusBox,rasterBox,countries){
     var computedBox = pathGuate.bounds(focusBox)
     focusWidth = computedBox[1][0] - computedBox[0][0];
 
-    svg = d3.select("div.map")
-              .append("svg")
+    var container = d3.select("div.map");
+
+    svg = container.append("svg")
               .attr("class", "magic")
               .attr("viewBox", `0 0 ${w} ${h}`)
               .attr("overflow", "visible")
               .style("position","relative")
               .style("z-index", 1)
 
+    g = svg.append("g");
 
-    //calculate raster extent percentages
+    //calculate raster extent
     rasterBounds = pathGuate.bounds(rasterBox);
-    var rasterWidth = (rasterBounds[1][0] - rasterBounds[0][0])/w*100;
-    var rasterOrigin = [rasterBounds[0][0]/w*100,rasterBounds[0][1]/h*100];
+    var rasterWidth = rasterBounds[1][0] - rasterBounds[0][0];
+    var rasterOrigin = [rasterBounds[0][0],rasterBounds[0][1]];
+
 
     //append raster background
-    svg.append("image")
+    g.append("g")
+          .attr("class", "raster")
+        .append("image")
             .attr("href", "img/hs_light.jpg")
-            .attr("x", rasterOrigin[0]+"%")
-            .attr("y", rasterOrigin[1]+"%")
-            .attr("width", rasterWidth + "%")
+            .attr("x", rasterOrigin[0])
+            .attr("y", rasterOrigin[1])
+            .attr("width", rasterWidth)          
             .attr("transform", "translate(0,5)");
 
     //draw countries
-    var countryBorders = svg.append("g")
+    var countryBorders = g.append("g")
                             .selectAll(".country")
                             .data(countries)
                             .enter()
@@ -120,6 +128,38 @@ function positionMap(municipios,focusBox,rasterBox,countries){
                                 .attr("d", pathGuate)
                                 .attr("class", "country");
 
+    //add zoom
+    const zoom = d3.zoom()
+          .scaleExtent([1, 8])
+          .on("zoom", zoomed);
+
+
+    function zoomed() {
+        g.attr("transform", d3.event.transform);
+        g.attr("stroke-width", 1 / d3.event.transform.k);
+      }
+
+    setTimeout(function(){
+      zoomIn();
+    }, 10000)
+
+    function zoomIn(){
+      var x0 = 0.3*w,
+      y0= h*0.4,
+      x1 = .5*w,
+      y1 = .5*h;
+
+      console.log("here!");
+
+      svg.transition().duration(750).call(
+        zoom.transform,
+        d3.zoomIdentity
+          .translate(w/2,h/2)
+          .scale(Math.min(8, 0.9 / Math.max((x1 - x0) / w, (y1 - y0) / h)))
+          .translate(-(x0 + x1) / 2, -(y0 + y1) / 2)
+        );
+
+    }
 
     // //draw labels as HTML so it doesn't scale with viewbox
     // var countriesLabels = d3.select("div.map").append("div").attr("class", "labels")
@@ -145,7 +185,7 @@ function positionMap(municipios,focusBox,rasterBox,countries){
 function drawDotDensity(groupsData){
 
     //draw municipios
-    var municipios = svg.append("g")
+    var municipios = g.append("g")
                             .selectAll(".municipio")
                             .data(groupsData)
                             .enter()
@@ -169,7 +209,7 @@ function drawViolations(violations){
     var violationsSpread =  applySimulation(violationsPacked);
 
     //add spread bubbles
-    var circleGroups = svg.append("g")
+    var circleGroups = g.append("g")
                            .selectAll(".circleGroups")
                                .data(violationsSpread)
                                .enter()
@@ -249,3 +289,21 @@ function applySimulation(nodes){
 }
 
 loadData();
+
+
+// function clicked(d) {
+
+//     const [[x0, y0], [x1, y1]] = path.bounds(d);
+//     d3.event.stopPropagation();
+//     svg.transition().duration(durationMs).call(
+//       zoom.transform,
+//       d3.zoomIdentity
+//         .translate(w / 2, h / 2)
+//         .scale(Math.min(8, 0.9 / Math.max((x1 - x0) / width, (y1 - y0) / height)))
+//         .translate(-(x0 + x1) / 2, -(y0 + y1) / 2),
+//       d3.mouse(svg.node())
+//     );
+//     // show counties when zoomed in on a state
+//     countyFills.transition().duration(durationMs)
+//       .attr("opacity", 1.0);
+//   }
