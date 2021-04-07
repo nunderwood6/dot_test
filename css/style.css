@@ -1,0 +1,147 @@
+html,body {
+	font-family: proxima-nova, sans-serif;
+	/*font-family: 'Philosopher', sans-serif;*/
+   height: 100%;
+   width: 100%;
+   margin: 0;
+   background-color: #fafafc;
+
+}
+
+div{
+	margin: 0 auto;
+}
+
+div.opener {
+	background-image: url("../img/walking_feathered.jpg");
+	background-size: cover;
+	background-position: 10% 50%;
+	width: 100%;
+	height: 100%;
+	margin: 0 auto;
+	position: relative;
+	z-index: 5;
+
+}
+
+
+div.opener h1 {
+	padding-top: 10px;
+	font-size: 4em;
+	font-family: 'Philosopher', sans-serif;
+	text-align: center;
+	margin: 0;
+}
+
+div.opener h2 {
+	font-size: 2em;
+	font-family: 'Philosopher', sans-serif;
+	text-align: center;
+	margin-top: 0px;
+}
+
+div.opener h4 {
+	font-size: 1.2em;
+	font-family: 'Philosopher', sans-serif;
+	position: absolute;
+	width: 100%;
+	text-align: center;
+	bottom: 15px;
+}
+
+div.introText, div.closingText {
+	position: relative;
+	margin: 0;
+	z-index: 5;
+	background-color: #fafafc;
+	padding: 50px 0;
+
+}
+
+p {
+	font-size: 18px;
+	padding: 0 5px;
+	margin: 0 auto;
+	max-width: 625px;
+	z-index: 5;
+	position: relative;
+
+}
+
+.firstCharacter {
+	float: left;
+	font-size: 75px;
+  	line-height: 50px;
+  	padding-top: 4px;
+  	padding-right: 8px;
+  	padding-left: 3px;
+}
+
+div.outer{
+	width: 100%;
+	height: 100%;
+	background-color: #555;
+	display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+div.map{
+	width: 100%;
+	height: 100%;
+	position: relative;
+/*	background-image: url("../img/hs_light.jpg");
+	background-size: cover;
+	background-position: 50% 50%;*/
+	background-color: #ebeced;
+	max-height: 104.52vw;
+	max-width: 95.68vh;
+}
+
+/*div.map p {
+	position: absolute;
+	transform: translate(-50%,-50%);
+	font-size: 10px;
+	font-weight: bold;
+}*/
+
+
+div.labels p {
+	position: absolute;
+	color: #333;
+	opacity: 80%;
+}
+
+div.labels p.countryLabel {
+	text-transform: uppercase;
+	font-size: 10px;
+	letter-spacing: 4px;
+}
+
+div.labels p.waterLabel {
+	text-transform: uppercase;
+	font-style: italic;
+	font-size: 10px;
+	letter-spacing: 4px;
+	color: #777;
+}
+
+
+.municipio {
+	fill: #777;
+	stroke: #fff;
+	stroke-width: 0.2px;
+	opacity: 0.5;
+	stroke-opacity: 0.7;
+}
+
+.country {
+	fill: #555;
+	stroke: #fff;
+	stroke-width: 1px;
+	opacity: 0.2;
+	stroke-opacity: 1;
+
+}
+
+
