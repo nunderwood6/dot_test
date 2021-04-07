@@ -59,7 +59,7 @@ function loadData(){
 
         positionMap(municipios,focusBox,rasterBox,countries);
         drawDotDensity(groupsData);
-        // drawViolations(violations);
+        drawViolations(violations);
 
     });
 }
@@ -150,8 +150,8 @@ function positionMap(municipios,focusBox,rasterBox,countries){
       y1 = .5*h;
 
       console.log("here!");
-
-      svg.transition().duration(750).call(
+      console.log(d3.event);
+      svg.transition().duration(2000).call(
         zoom.transform,
         d3.zoomIdentity
           .translate(w/2,h/2)
@@ -216,12 +216,12 @@ function drawViolations(violations){
                                .append("g")
                                .attr("transform", d => `translate(${d.x} ${d.y})`);
 
-     var outerCircles = circleGroups.append("circle")
-               .attr("class", "outerCircle")
-               .attr("r", d => d.properties["violations_mama"].r)
-               .attr("fill", "none")
-               .attr("stroke", "#fff")
-               .attr("stroke-width", 0.1);
+     // var outerCircles = circleGroups.append("circle")
+     //           .attr("class", "outerCircle")
+     //           .attr("r", d => d.properties["violations_mama"].r)
+     //           .attr("fill", "none")
+     //           .attr("stroke", "#fff")
+     //           .attr("stroke-width", 0.1);
 
      circleGroups.each(function(d){  
            for(i=0;i<d.properties["violations_siblings"].length;i++){
